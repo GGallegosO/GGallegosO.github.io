@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1117"/>
+      <stop offset="1" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#58a6ff"/>
+      <stop offset="1" stop-color="#3fb950"/>
+    </linearGradient>
+    <clipPath id="avatarClip">
+      <circle cx="230" cy="315" r="118"/>
+    </clipPath>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#30363d" stroke-opacity="0.35" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="230" cy="315" r="132" fill="none" stroke="#30363d" stroke-width="2"/>
+  <circle cx="230" cy="315" r="148" fill="none" stroke="#30363d" stroke-width="1" stroke-dasharray="4 8" opacity="0.7"/>
+
+  <image x="112" y="197" width="236" height="236" href="avatar.jpg" clip-path="url(#avatarClip)" preserveAspectRatio="xMidYMid slice"/>
+
+  <circle cx="348" cy="222" r="10" fill="#0d1117" stroke="#0d1117" stroke-width="4"/>
+  <circle cx="348" cy="222" r="7" fill="#3fb950"/>
+
+  <text x="430" y="190" fill="#58a6ff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="17" letter-spacing="3">PORTAFOLIO · DESARROLLADOR FULLSTACK</text>
+
+  <text x="430" y="282" fill="#e6edf3" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="66" font-weight="700" letter-spacing="-2">Gustavo Gallegos</text>
+
+  <text x="430" y="334" fill="#9aa4af" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="500">Analista Programador &amp; Desarrollador Fullstack</text>
+
+  <text x="430" y="398" fill="#58a6ff" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20">Node.js · Express · MySQL · C# · .NET</text>
+
+  <rect x="430" y="446" width="120" height="4" rx="2" fill="url(#accent)"/>
+
+  <text x="430" y="526" fill="#9aa4af" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22">gustavog.is-a.dev</text>
+
+  <text x="1090" y="560" fill="#30363d" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" text-anchor="end">{ fullstack: true }</text>
+</svg>
