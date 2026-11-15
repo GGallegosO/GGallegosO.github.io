@@ -331,79 +331,169 @@
   }
 })();
 
-/* ---------- Animación terminal → navegador ---------- */
-(function () {
-  const COMMAND = "npx create-site web";
-  const TYPING_SPEED = 70; // ms por carácter
-  const PAUSE_AFTER_TYPE = 600; // pausa antes de "ejecutar"
-  const SHOW_BROWSER_FOR = 4500; // cuánto se muestra la web
-  const RESTART_AFTER = 2000; // pausa antes de reiniciar
+//* ---------- Animación terminal → navegador ---------- */
+const typedEl = document.getElementById("typed-text");
+const outputEl = document.getElementById("terminal-output");
+const terminalEl = document.getElementById("terminal");
+const browserEl = document.getElementById("browser");
+const browserBodyEl = document.getElementById("browser-body");
+const browserUrlEl = document.getElementById("browser-url-text");
 
-  const typedEl = document.getElementById("typed-text");
-  const outputEl = document.getElementById("terminal-output");
-  const terminalEl = document.getElementById("terminal");
-  const browserEl = document.getElementById("browser");
+if (typedEl && outputEl && terminalEl && browserEl && browserBodyEl && browserUrlEl) {
+  const TYPING_SPEED = 70;
+  const PAUSE_AFTER_TYPE = 600;
+  const SHOW_BROWSER_FOR = 4500;
+  const RESTART_AFTER = 2000;
 
-  if (!typedEl || !outputEl || !terminalEl || !browserEl) return;
+  const ICONS = {
+    cafe: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z"/><path d="M6 2v3M10 2v3M14 2v3"/></svg>`,
+    industrial: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+    salud: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`
+  };
 
-  // Respeta usuarios que no quieren animación
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReduced) {
-    terminalEl.classList.add("is-hidden");
-    browserEl.classList.add("is-visible");
-    return;
-  }
+  const CLIENTS = [
+    {
+      cmd: "npx create-site cafe-aurora",
+      url: "cafeaurora.cl",
+      name: "Café Aurora",
+      theme: "cafe",
+      logo: "Café <em>Aurora</em>",
+      nav: "Menú · Nosotros · Contacto",
+      title: "Café de especialidad",
+      tagline: "Tostado artesanal, todos los días.",
+      btn: "Ver menú",
+      info: [
+        ["📍 Providencia 1234", "Santiago, Chile"],
+        ["🕐 Lun a Sáb", "8:00 – 20:00 hrs"],
+        ["✉ hola@cafeaurora.cl", "Reservas y pedidos"]
+      ]
+    },
+    {
+      cmd: "npx create-site taller-norte",
+      url: "tallernorte.cl",
+      name: "Taller Norte",
+      theme: "industrial",
+      logo: "TALLER <em>NORTE</em>", // Mayúsculas para sentir más "industrial"
+      nav: "Servicios · Diagnóstico · Contacto",
+      title: "Mecánica pesada y liviana",
+      tagline: "Diagnóstico computarizado con garantía real.",
+      btn: "Pedir hora",
+      info: [
+        ["📍 Av. Independencia 567", "Santiago, Chile"],
+        ["🕐 Lun a Vie", "9:00 – 18:00 hrs"],
+        ["✉ contacto@tallernorte.cl", "Presupuestos sin costo"]
+      ]
+    },
+    {
+      cmd: "npx create-site clinica-vida",
+      url: "clinicavida.cl",
+      name: "Clínica Vida",
+      theme: "salud",
+      logo: "Clínica <em>Vida</em>",
+      nav: "Especialidades · Convenios · Contacto",
+      title: "Tu salud, nuestra prioridad",
+      tagline: "Atención médica con estándares de excelencia.",
+      btn: "Agendar hora",
+      info: [
+        ["📍 Av. Apoquindo 3456", "Las Condes, Santiago"],
+        ["🕐 Urgencias", "24 horas, todos los días"],
+        ["✉ pacientes@clinicavida.cl", "Horas médicas en línea"]
+      ]
+    }
+  ];
 
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  let clientIndex = 0;
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const renderBrowser = (client) => {
+    browserUrlEl.textContent = client.url;
+    browserBodyEl.className = `browser__body browser__body--${client.theme}`;
+
+    browserBodyEl.innerHTML = `
+      <nav class="mini-nav">
+        <span class="mini-nav__logo">${client.logo}</span>
+        <span class="mini-nav__links">${client.nav}</span>
+      </nav>
+
+      <div class="mini-hero">
+        <div class="mini-hero__text">
+          <h4>${client.title}</h4>
+          <p>${client.tagline}</p>
+          <span class="mini-hero__btn">${client.btn}</span>
+        </div>
+        <div class="mini-hero__img" aria-hidden="true">${ICONS[client.theme]}</div>
+      </div>
+
+      <div class="mini-cards">
+        ${client.info
+          .map(
+            ([strong, span]) => `
+          <div class="mini-card">
+            <strong>${strong}</strong>
+            <span>${span}</span>
+          </div>
+        `
+          )
+          .join("")}
+      </div>
+    `;
+  };
 
   async function typeCommand() {
+    const client = CLIENTS[clientIndex % CLIENTS.length];
+    clientIndex++;
+
     typedEl.textContent = "";
     outputEl.innerHTML = "";
     terminalEl.classList.remove("is-hidden");
     browserEl.classList.remove("is-visible");
 
-    for (const char of COMMAND) {
+    for (const char of client.cmd) {
       typedEl.textContent += char;
-      await sleep(TYPING_SPEED + Math.random() * 40); // variación humana
+      await sleep(TYPING_SPEED + Math.random() * 40);
     }
 
     await sleep(PAUSE_AFTER_TYPE);
 
-    // Simula ejecución
     outputEl.innerHTML = `
-  <div>📦 Generando estructura...</div>
-  <div class="ok">✓ Landing, menú y contacto creados</div>
-  <div class="ok">✓ Estilos del cliente aplicados</div>
-  <div class="ok">✓ Publicado en cafeaurora.cl</div>
-`;
+      <div>📦 Generando estructura para ${client.name}...</div>
+      <div class="ok">✓ Landing, servicios y contacto creados</div>
+      <div class="ok">✓ Identidad visual del cliente aplicada</div>
+      <div class="ok">✓ Publicado en ${client.url}</div>
+    `;
 
     await sleep(1200);
 
-    // Transición a navegador
+    renderBrowser(client);
+
     terminalEl.classList.add("is-hidden");
     await sleep(400);
     browserEl.classList.add("is-visible");
 
     await sleep(SHOW_BROWSER_FOR);
 
-    // Reinicia el loop
     browserEl.classList.remove("is-visible");
     await sleep(RESTART_AFTER);
     typeCommand();
   }
 
-  // Inicia cuando el hero es visible
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          typeCommand();
-          observer.disconnect();
-        }
-      });
-    },
-    { threshold: 0.3 }
-  );
-
-  observer.observe(terminalEl);
-})();
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReduced) {
+    renderBrowser(CLIENTS[0]);
+    terminalEl.classList.add("is-hidden");
+    browserEl.classList.add("is-visible");
+  } else {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            typeCommand();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(terminalEl);
+  }
+}
