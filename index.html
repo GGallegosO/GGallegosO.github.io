@@ -267,24 +267,90 @@
               </li>
             </ul>
           </div>
+          
 
           <div class="hero__visual">
-            <div class="avatar-frame">
-              <img src="assets/img/avatar.jpg" alt="Retrato de Gustavo Gallegos" width="420" height="420" />
-            </div>
-            <div class="code-card" aria-hidden="true">
-              <div class="code-card__bar">
-                <span class="code-card__dot"></span>
-                <span class="code-card__dot"></span>
-                <span class="code-card__dot"></span>
-                <span class="code-card__file">perfil.js</span>
-              </div>
-              <pre><code><span class="code-key">const</span> gustavo = {
-  rol: <span class="code-string">"fullstack"</span>,
-  stack: [<span class="code-string">"Node"</span>, <span class="code-string">"Express"</span>, <span class="code-string">"MySQL"</span>],
-  enfoque: <span class="code-string">"APIs y datos"</span>,
-  aprendiendo: <span class="code-string">"siempre"</span>
-};</code></pre>
+  <div class="terminal-stage" aria-hidden="true">
+    <!-- Fase 1: Terminal -->
+    <div class="terminal" id="terminal">
+      <div class="terminal__bar">
+        <span class="terminal__dot terminal__dot--red"></span>
+        <span class="terminal__dot terminal__dot--yellow"></span>
+        <span class="terminal__dot terminal__dot--green"></span>
+        <span class="terminal__title">terminal</span>
+      </div>
+      <div class="terminal__body">
+        <div class="terminal__line">
+          <span class="terminal__prompt">$</span>
+          <span class="terminal__typed" id="typed-text"></span>
+          <span class="terminal__cursor" id="cursor">▌</span>
+        </div>
+        <div class="terminal__output" id="terminal-output"></div>
+      </div>
+    </div>
+
+    <!-- Fase 2: Web del cliente simulada -->
+<div class="browser" id="browser">
+  <div class="browser__bar">
+    <div class="browser__dots">
+      <span class="browser__dot"></span>
+      <span class="browser__dot"></span>
+      <span class="browser__dot"></span>
+    </div>
+    <div class="browser__url">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      cafeaurora.cl
+    </div>
+  </div>
+
+  <div class="browser__body browser__body--cafe">
+    <!-- Nav simulada -->
+    <nav class="mini-nav">
+      <span class="mini-nav__logo">Café <em>Aurora</em></span>
+      <span class="mini-nav__links">Menú · Nosotros · Contacto</span>
+    </nav>
+
+    <!-- Hero con imagen placeholder -->
+    <div class="mini-hero">
+      <div class="mini-hero__text">
+        <h4>Café de especialidad</h4>
+        <p>Tostado artesanal, todos los días.</p>
+        <span class="mini-hero__btn">Ver menú</span>
+      </div>
+      <div class="mini-hero__img" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+          <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z"/>
+          <path d="M6 2v3M10 2v3M14 2v3"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Tarjetas de contacto/info -->
+    <div class="mini-cards">
+      <div class="mini-card">
+        <strong>📍 Providencia 1234</strong>
+        <span>Santiago, Chile</span>
+      </div>
+      <div class="mini-card">
+        <strong>🕐 Lun a Sáb</strong>
+        <span>8:00 – 20:00 hrs</span>
+      </div>
+      <div class="mini-card">
+        <strong>✉ hola@cafeaurora.cl</strong>
+        <span>Reservas y pedidos</span>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+
+
+
             </div>
           </div>
         </div>
